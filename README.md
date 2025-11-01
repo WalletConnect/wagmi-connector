@@ -241,6 +241,12 @@ pnpm add wagmi viem @wagmi/core
 
 See [LICENSE.md](LICENSE.md) for details. This project is licensed under the WalletConnect Community License Agreement.
 
+### Acknowledgments
+
+Portions © 2025 Reown, Inc. All Rights Reserved
+
+This project includes code derived from [wagmi](https://github.com/wevm/wagmi), which is licensed under the MIT License. See [NOTICE](NOTICE) for full attribution details.
+
 ## Links
 
 - [WalletConnect Documentation](https://docs.walletconnect.com/)

@@ -1,3 +1,14 @@
+/**
+ * WalletConnect Connector for wagmi
+ * 
+ * Portions of this code are based on wagmi's walletConnect connector
+ * Copyright (c) 2022-2024 wagmi
+ * Licensed under the MIT License
+ * Source: https://github.com/wevm/wagmi/blob/main/packages/connectors/src/walletConnect.ts
+ * 
+ * Portions © 2025 Reown, Inc. All Rights Reserved
+ */
+
 import {
   ChainNotConfiguredError,
   type Connector,

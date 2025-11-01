@@ -16,7 +16,9 @@
     "dist/**",
     "src/**/*.ts",
     "!src/**/*.test.ts",
-    "!src/**/__tests__/**"
+    "!src/**/__tests__/**",
+    "LICENSE.md",
+    "NOTICE"
   ],
   "scripts": {
     "build": "tsc",

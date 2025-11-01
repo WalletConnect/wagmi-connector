@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@walletconnect/ethereum-provider':
-        specifier: ^2.0.0
+        specifier: ^2.23.0
         version: 2.23.0(@types/react@19.2.2)(typescript@5.9.3)(zod@3.22.4)
     devDependencies:
       '@changesets/cli':

@@ -25,8 +25,7 @@ Your repository has been fully configured for production npm publishing! Here's 
 - **src/walletConnect.test.ts**: Initial test suite adapted from wagmi
 
 ### 3. Code Quality Tools
-- **.eslintrc.json**: TypeScript ESLint configuration
-- **.eslintignore**: ESLint ignore patterns
+- **eslint.config.js**: ESLint 9 flat config with TypeScript support
 - **.prettierrc**: Prettier code formatting rules
 - **.prettierignore**: Prettier ignore patterns
 
@@ -66,7 +65,7 @@ pnpm install
 
 This will install all the new devDependencies including:
 - Testing: `vitest`, `@vitest/coverage-v8`, `happy-dom`, `msw`
-- Linting: `eslint`, `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`
+- Linting: `eslint` (v9), `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`
 - Formatting: `prettier`
 - Build tools: `@changesets/cli`
 
@@ -190,8 +189,7 @@ src/
     - config.ts
   - walletConnect.test.ts
 - vitest.config.ts
-- .eslintrc.json
-- .eslintignore
+- eslint.config.js
 - .prettierrc
 - .prettierignore
 - .nvmrc
@@ -245,7 +243,7 @@ Use the GitHub Actions workflow:
 
 1. **Environment Variables**: Tests may need `VITE_WC_PROJECT_ID` for WalletConnect API calls
 2. **Node Version**: Ensure you're using Node.js 18+ (check with `node -v`)
-3. **pnpm Version**: Ensure you're using pnpm 8+ (check with `pnpm -v`)
+3. **pnpm Version**: Ensure you're using pnpm 9+ (check with `pnpm -v`)
 4. **First Release**: The initial version in package.json is 1.0.0 - adjust if needed
 5. **Branch Protection**: Consider enabling branch protection rules on `main` in GitHub
 

@@ -1,11 +1,11 @@
 /**
  * WalletConnect Connector for wagmi
- * 
+ *
  * Portions of this code are based on wagmi's walletConnect connector
  * Copyright (c) 2022-2024 wagmi
  * Licensed under the MIT License
  * Source: https://github.com/wevm/wagmi/blob/main/packages/connectors/src/walletConnect.ts
- * 
+ *
  * Portions © 2025 Reown, Inc. All Rights Reserved
  */
 
@@ -186,10 +186,12 @@ export function walletConnect(parameters: WalletConnectParameters) {
         // Switch to chain if provided
         let currentChainId = await this.getChainId()
         if (chainId && currentChainId !== chainId) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const chain = await this.switchChain!({ chainId }).catch(
             (error: RpcError) => {
               if (
                 error.code === UserRejectedRequestError.code &&
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (error as any).cause?.message !==
                   'Missing or invalid. request() method: wallet_addEthereumChain'
               )
@@ -308,6 +310,7 @@ export function walletConnect(parameters: WalletConnectParameters) {
         provider_?.events.setMaxListeners(Number.POSITIVE_INFINITY)
       }
       if (chainId) await this.switchChain?.({ chainId })
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return provider_!
     },
     async getChainId() {

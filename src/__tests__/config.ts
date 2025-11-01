@@ -11,4 +11,3 @@ export const config = createConfig({
 
 export const walletConnectProjectId =
   process.env.VITE_WC_PROJECT_ID || 'test-project-id'
-

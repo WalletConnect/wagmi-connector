@@ -1,0 +1,90 @@
+{
+  "name": "@walletconnect/wagmi-connector",
+  "version": "1.0.0",
+  "description": "WalletConnect connector for wagmi",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**",
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/**/__tests__/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prettier:check": "prettier --check \"src/**/*.ts\"",
+    "prettier:write": "prettier --write \"src/**/*.ts\"",
+    "format": "pnpm prettier:write && pnpm lint:fix",
+    "prepublishOnly": "pnpm clean && pnpm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/walletconnect/wagmi-connector.git"
+  },
+  "homepage": "https://github.com/walletconnect/wagmi-connector#readme",
+  "bugs": {
+    "url": "https://github.com/walletconnect/wagmi-connector/issues"
+  },
+  "author": "WalletConnect, Inc. <walletconnect.com>",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "walletconnect",
+    "wagmi",
+    "connector",
+    "ethereum",
+    "web3",
+    "dapp",
+    "wallet"
+  ],
+  "peerDependencies": {
+    "@wagmi/core": "^2.22.0",
+    "viem": "^2.0.0",
+    "typescript": ">=5.0.4"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@walletconnect/ethereum-provider": "^2.0.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitest/coverage-v8": "^1.2.2",
+    "@wagmi/core": "^2.22.0",
+    "eslint": "^8.56.0",
+    "happy-dom": "^13.3.8",
+    "msw": "^2.1.5",
+    "prettier": "^3.2.5",
+    "typescript": "^5.8.3",
+    "viem": "^2.7.6",
+    "vitest": "^1.2.2"
+  }
+}
+

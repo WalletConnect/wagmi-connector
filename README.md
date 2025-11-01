@@ -4,15 +4,7 @@
 [![CI](https://github.com/walletconnect/wagmi-connector/actions/workflows/pr_checks.yml/badge.svg)](https://github.com/walletconnect/wagmi-connector/actions/workflows/pr_checks.yml)
 [![License](https://img.shields.io/badge/License-WalletConnect-blue.svg)](LICENSE.md)
 
-Official WalletConnect connector for wagmi. This package provides a standalone implementation of the WalletConnect connector, allowing applications to explicitly opt-in to WalletConnect support.
-
-## Why This Package?
-
-This connector has been extracted from wagmi into a separate package to:
-- Give WalletConnect full ownership and control over the connector implementation
-- Allow applications to explicitly choose to include WalletConnect (clear licensing boundary)
-- Enable independent versioning and updates
-- Reduce wagmi's bundle size for apps that don't need WalletConnect
+Official WalletConnect connector for [wagmi](https://github.com/wevm/wagmi).
 
 ## Installation
 
@@ -66,6 +58,9 @@ walletConnect({
     description: string
     url: string
     icons: string[]
+  }
+  qrModalOptions?: {             // Optional: QR modal configuration
+    enableMobileFullScreen?: boolean
   }
 })
 ```
@@ -168,6 +163,8 @@ Creates a WalletConnect connector instance.
   - `true`: Disconnect and require reconnection when new chains are added
   - `false`: Attempt to continue connection (may error if wallet doesn't support dynamic chains)
 - `metadata` (optional): Application metadata shown in wallet during connection
+- `qrModalOptions` (optional): Configuration options for the QR modal
+  - `enableMobileFullScreen`: Enable full-screen mode on mobile devices
 
 #### Returns
 
@@ -207,6 +204,17 @@ walletConnect({
 })
 ```
 
+### With QR Modal Options
+
+```typescript
+walletConnect({
+  projectId: 'YOUR_PROJECT_ID',
+  qrModalOptions: {
+    enableMobileFullScreen: true  // Enable full-screen on mobile
+  }
+})
+```
+
 ## Troubleshooting
 
 ### "ProviderNotFoundError"
@@ -237,7 +245,7 @@ See [LICENSE.md](LICENSE.md) for details. This project is licensed under the Wal
 
 - [WalletConnect Documentation](https://docs.walletconnect.com/)
 - [wagmi Documentation](https://wagmi.sh/)
-- [Get a Project ID](https://cloud.walletconnect.com/)
+- [Get a Project ID](https://dashboard.reown.com/)
 
 ## Contributing
 
@@ -321,11 +329,6 @@ The repository uses GitHub Actions for continuous integration:
 - **PR Checks**: Runs on all pull requests, testing build, linting, type checking, and tests on Node.js 18.x and 20.x
 - **Publish**: Automatically publishes to npm when version PRs are merged to main
 - **Canary Releases**: Manual workflow for publishing canary versions
-
-#### Required GitHub Secrets
-
-- `NPM_TOKEN`: NPM authentication token for publishing
-- `VITE_WC_PROJECT_ID`: WalletConnect project ID for testing (optional)
 
 ### Issues and Feature Requests
 

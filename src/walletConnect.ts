@@ -133,11 +133,16 @@ export function walletConnect(parameters: WalletConnectParameters) {
       const provider = await this.getProvider().catch(() => null)
       if (!provider) return
       if (!connect) {
-        connect = this.onConnect.bind(this)
-        provider.on('connect', connect)
+        connect = this.onConnect.bind(
+          this,
+        ) as WalletConnectConnector['onConnect']
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        provider.on('connect', connect!)
       }
       if (!sessionDelete) {
-        sessionDelete = this.onSessionDelete.bind(this)
+        sessionDelete = this.onSessionDelete.bind(
+          this,
+        ) as WalletConnectConnector['onSessionDelete']
         provider.on('session_delete', sessionDelete)
       }
     },
@@ -146,7 +151,8 @@ export function walletConnect(parameters: WalletConnectParameters) {
         const provider = await this.getProvider()
         if (!provider) throw new ProviderNotFoundError()
         if (!displayUri) {
-          displayUri = this.onDisplayUri
+          displayUri = this
+            .onDisplayUri as WalletConnectConnector['onDisplayUri']
           provider.on('display_uri', displayUri)
         }
 
@@ -161,7 +167,9 @@ export function walletConnect(parameters: WalletConnectParameters) {
         }
         if (!targetChainId) throw new Error('No chains found on connector.')
 
-        const isChainsStale = await this.isChainsStale()
+        const isChainsStale = await (
+          this.isChainsStale as () => Promise<boolean>
+        )()
         // If there is an active session with stale chains, disconnect current session.
         if (provider.session && isChainsStale) await provider.disconnect()
 
@@ -176,8 +184,9 @@ export function walletConnect(parameters: WalletConnectParameters) {
               ? { pairingTopic: rest.pairingTopic }
               : {}),
           })
-
-          this.setRequestedChainsIds(config.chains.map((x) => x.id))
+          ;(this.setRequestedChainsIds as (chains: number[]) => void)(
+            config.chains.map((x) => x.id),
+          )
         }
 
         // If session exists and chains are authorized, enable provider for required chain
@@ -223,7 +232,9 @@ export function walletConnect(parameters: WalletConnectParameters) {
           provider.on('disconnect', disconnect)
         }
         if (!sessionDelete) {
-          sessionDelete = this.onSessionDelete.bind(this)
+          sessionDelete = this.onSessionDelete.bind(
+            this,
+          ) as WalletConnectConnector['onSessionDelete']
           provider.on('session_delete', sessionDelete)
         }
 
@@ -260,8 +271,11 @@ export function walletConnect(parameters: WalletConnectParameters) {
           disconnect = undefined
         }
         if (!connect) {
-          connect = this.onConnect.bind(this)
-          provider?.on('connect', connect)
+          connect = this.onConnect.bind(
+            this,
+          ) as WalletConnectConnector['onConnect']
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          provider?.on('connect', connect!)
         }
         if (accountsChanged) {
           provider?.removeListener('accountsChanged', accountsChanged)
@@ -272,7 +286,7 @@ export function walletConnect(parameters: WalletConnectParameters) {
           sessionDelete = undefined
         }
 
-        this.setRequestedChainsIds([])
+        ;(this.setRequestedChainsIds as (chains: number[]) => void)([])
       }
     },
     async getAccounts() {
@@ -310,8 +324,7 @@ export function walletConnect(parameters: WalletConnectParameters) {
         provider_?.events.setMaxListeners(Number.POSITIVE_INFINITY)
       }
       if (chainId) await this.switchChain?.({ chainId })
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return provider_!
+      return provider_ as Provider
     },
     async getChainId() {
       const provider = await this.getProvider()
@@ -319,16 +332,18 @@ export function walletConnect(parameters: WalletConnectParameters) {
     },
     async isAuthorized() {
       try {
-        const [accounts, provider] = await Promise.all([
+        const [accounts, provider] = (await Promise.all([
           this.getAccounts(),
           this.getProvider(),
-        ])
+        ])) as [Address[], Provider]
 
         // If an account does not exist on the session, then the connector is unauthorized.
         if (!accounts.length) return false
 
         // If the chains are stale on the session, then the connector is unauthorized.
-        const isChainsStale = await this.isChainsStale()
+        const isChainsStale = await (
+          this.isChainsStale as () => Promise<boolean>
+        )()
         if (isChainsStale && provider.session) {
           await provider.disconnect().catch(() => {})
           return false
@@ -366,8 +381,13 @@ export function walletConnect(parameters: WalletConnectParameters) {
           }),
         ])
 
-        const requestedChains = await this.getRequestedChainsIds()
-        this.setRequestedChainsIds([...requestedChains, chainId])
+        const requestedChains = await (
+          this.getRequestedChainsIds as () => Promise<number[]>
+        )()
+        ;(this.setRequestedChainsIds as (chains: number[]) => void)([
+          ...requestedChains,
+          chainId,
+        ])
 
         return chain
       } catch (err) {
@@ -406,8 +426,13 @@ export function walletConnect(parameters: WalletConnectParameters) {
             params: [addEthereumChain],
           })
 
-          const requestedChains = await this.getRequestedChainsIds()
-          this.setRequestedChainsIds([...requestedChains, chainId])
+          const requestedChains = await (
+            this.getRequestedChainsIds as () => Promise<number[]>
+          )()
+          ;(this.setRequestedChainsIds as (chains: number[]) => void)([
+            ...requestedChains,
+            chainId,
+          ])
           return chain
         } catch (error) {
           throw new UserRejectedRequestError(error as Error)
@@ -431,7 +456,7 @@ export function walletConnect(parameters: WalletConnectParameters) {
       config.emitter.emit('connect', { accounts, chainId })
     },
     async onDisconnect(_error) {
-      this.setRequestedChainsIds([])
+      ;(this.setRequestedChainsIds as (chains: number[]) => void)([])
       config.emitter.emit('disconnect')
 
       const provider = await this.getProvider()
@@ -452,8 +477,11 @@ export function walletConnect(parameters: WalletConnectParameters) {
         sessionDelete = undefined
       }
       if (!connect) {
-        connect = this.onConnect.bind(this)
-        provider.on('connect', connect)
+        connect = this.onConnect.bind(
+          this,
+        ) as WalletConnectConnector['onConnect']
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        provider.on('connect', connect!)
       }
     },
     onDisplayUri(uri) {
@@ -489,20 +517,22 @@ export function walletConnect(parameters: WalletConnectParameters) {
       if (!isNewChainsStale) return false
 
       const connectorChains = config.chains.map((x) => x.id)
-      const namespaceChains = this.getNamespaceChainsIds()
+      const namespaceChains = (this.getNamespaceChainsIds as () => number[])()
       if (
         namespaceChains.length &&
-        !namespaceChains.some((id) => connectorChains.includes(id))
+        !namespaceChains.some((id: number) => connectorChains.includes(id))
       )
         return false
 
-      const requestedChains = await this.getRequestedChainsIds()
+      const requestedChains = await (
+        this.getRequestedChainsIds as () => Promise<number[]>
+      )()
       return !connectorChains.every((id) => requestedChains.includes(id))
     },
     async setRequestedChainsIds(chains) {
       await config.storage?.setItem(this.requestedChainsStorageKey, chains)
     },
-    get requestedChainsStorageKey() {
+    get requestedChainsStorageKey(): `${string}.requestedChains` {
       return `${this.id}.requestedChains`
     },
   }))

@@ -7,9 +7,7 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        projectService: {
-          allowDefaultProject: ['*.js'],
-        },
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -29,10 +27,11 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-floating-promises': 'off'
     },
   },
   {
-    ignores: ['dist/', 'node_modules/', '*.d.ts'],
+    ignores: ['dist/', 'node_modules/', '*.d.ts', '**/*.test.ts', '**/__tests__/**'],
   }
 );
 

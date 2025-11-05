@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsparser from '@typescript-eslint/parser'
 
@@ -20,6 +21,24 @@ export default [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+=======
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ['*.js'],
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
+>>>>>>> c744c43 (chore: versioning)
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -32,5 +51,12 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'warn',
     },
   },
+<<<<<<< HEAD
 ]
+=======
+  {
+    ignores: ['dist/', 'node_modules/', '*.d.ts'],
+  }
+);
+>>>>>>> c744c43 (chore: versioning)
 

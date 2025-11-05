@@ -47,8 +47,8 @@ jobs:
           title: "chore: version packages"
           commit: "chore: version packages"
           createGithubReleases: ${{ github.ref == 'refs/heads/main' }}
-          publish: npm run changeset:publish
-          version: npm run changeset:version
+          publish: pnpm run changeset:publish
+          version: pnpm run changeset:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

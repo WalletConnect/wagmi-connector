@@ -8,7 +8,7 @@ on:
         required: true
         default: "main"
       canaryVersion:
-        description: "Custom version (e.g., 1.0.0-canary.1)"
+        description: "Custom version (e.g., 1.2.3-canary.42)"
         required: true
 
 jobs:
@@ -19,15 +19,15 @@ jobs:
       id-token: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.branch }}
 
-      - name: Validate canary version format
+      - name: Validate canary version format 🔍
         run: |
           VERSION="${{ github.event.inputs.canaryVersion }}"
-          if [[ ! "$VERSION" =~ -canary\. ]]; then
-            echo "❌ Invalid version: '$VERSION'. It must include '-canary.'."
+          if [[ ! "$VERSION" =~ -canary- ]]; then
+            echo "❌ Invalid version: '$VERSION'. It must include '-canary-'."
             exit 1
           fi
 
@@ -43,21 +43,17 @@ jobs:
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install dependencies and build 🔧
+        run: pnpm install --frozen-lockfile && pnpm build
 
-      - name: Build
+      - name: Set version 📦
+        run: npm version ${{ github.event.inputs.canaryVersion }} --no-git-tag-version
+
+      - name: Rebuild after version change 🔁
         run: pnpm build
 
-      - name: Set canary version
-        run: |
-          npm version ${{ github.event.inputs.canaryVersion }} --no-git-tag-version
-
-      - name: Rebuild after version change
-        run: pnpm build
-
-      - name: Publish canary to npm
-        run: pnpm publish --tag canary --no-git-checks
+      - name: Publish canary on NPM 🚀
+        run: pnpm run npm-publish:canary
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

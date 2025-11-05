@@ -503,7 +503,7 @@ export function walletConnect(parameters: WalletConnectParameters) {
       await config.storage?.setItem(this.requestedChainsStorageKey, chains)
     },
     get requestedChainsStorageKey() {
-      return `${this.id}.requestedChains` as Properties['requestedChainsStorageKey']
+      return `${this.id}.requestedChains`
     },
   }))
 }

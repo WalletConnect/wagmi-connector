@@ -3,7 +3,7 @@ import { setupServer } from 'msw/node'
 import { afterAll, afterEach, beforeAll, vi } from 'vitest'
 
 const handlers = [
-  http.get('https://relay.walletconnect.com', async () =>
+  http.get('https://relay.walletconnect.com', () =>
     HttpResponse.json(
       {
         topic: '222781e3-3fad-4184-acde-077796bf0d3d',
@@ -23,7 +23,7 @@ beforeAll(() => {
     onUnhandledRequest: 'warn',
   })
 
-  const matchMedia = vi.fn().mockImplementation((query) => {
+  const matchMedia = vi.fn().mockImplementation((query: string) => {
     return {
       matches: false,
       media: query,

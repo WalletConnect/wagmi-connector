@@ -35,11 +35,8 @@ jobs:
           node-version: '20.x'
           cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
+      - name: Install dependencies and build
+        run: pnpm install --frozen-lockfile && pnpm build
 
       - name: Setup npm authentication
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > $HOME/.npmrc
@@ -47,10 +44,11 @@ jobs:
       - name: Create release PR or publish to npm
         uses: changesets/action@v1
         with:
-          title: "chore: version package"
-          commit: "chore: version package"
-          publish: pnpm publish --no-git-checks
-          version: pnpm changeset version
+          title: "chore: version packages"
+          commit: "chore: version packages"
+          createGithubReleases: ${{ github.ref == 'refs/heads/main' }}
+          publish: pnpm run changeset:publish
+          version: pnpm run changeset:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

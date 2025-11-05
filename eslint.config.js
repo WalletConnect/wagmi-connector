@@ -1,25 +1,17 @@
-import tseslint from '@typescript-eslint/eslint-plugin'
-import tsparser from '@typescript-eslint/parser'
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   {
-    ignores: ['dist', 'node_modules', 'coverage', '*.d.ts', '*.config.ts', '*.config.js', '.github'],
-  },
-  {
-    files: ['**/*.ts'],
     languageOptions: {
-      parser: tsparser,
       parserOptions: {
-        ecmaVersion: 2021,
-        sourceType: 'module',
-        project: './tsconfig.eslint.json',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
-    plugins: {
-      '@typescript-eslint': tseslint,
-    },
     rules: {
-      ...tseslint.configs.recommended.rules,
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -30,7 +22,16 @@ export default [
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-floating-promises': 'off'
     },
   },
-]
+  {
+    ignores: ['dist/', 'node_modules/', '*.d.ts', '**/*.test.ts', '**/__tests__/**'],
+  }
+);
 

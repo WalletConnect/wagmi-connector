@@ -11,7 +11,7 @@ Please be respectful and considerate in all interactions. We're building this to
 ### Prerequisites
 
 - Node.js >= 18.0.0
-- pnpm >= 8.0.0
+- pnpm >= 9.0.0
 
 ### Setup
 

@@ -1,6 +1,5 @@
 {
   "name": "@walletconnect/wagmi-connector",
-  "version": "1.0.0",
   "description": "WalletConnect connector for wagmi",
   "type": "module",
   "main": "./dist/index.js",
@@ -32,7 +31,9 @@
     "prettier:check": "prettier --check \"src/**/*.ts\"",
     "prettier:write": "prettier --write \"src/**/*.ts\"",
     "format": "pnpm prettier:write && pnpm lint:fix",
-    "prepublishOnly": "pnpm clean && pnpm build"
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "changeset:version": "changeset version",
+    "changeset:publish": "pnpm build && changeset publish"
   },
   "repository": {
     "type": "git",
@@ -89,4 +90,5 @@
     "vitest": "^1.2.2"
   }
 }
+
 

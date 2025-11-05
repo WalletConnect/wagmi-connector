@@ -1,5 +1,6 @@
 {
   "name": "@walletconnect/wagmi-connector",
+  "version": "1.0.1",
   "description": "WalletConnect connector for wagmi",
   "type": "module",
   "main": "./dist/index.js",
